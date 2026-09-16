@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вдохновение ЕКБ | Школа фигурного катания</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        ice: { 50:'#F0F9FF', 100:'#E0F2FE', 200:'#BAE6FD', 300:'#7DD3FC', 400:'#38BDF8', 500:'#0EA5E9', 600:'#0284C7', 700:'#0369A1', 800:'#075985', 900:'#0C4A6E' },
+        frost: { 400:'#67E8F9', 500:'#22D3EE', 600:'#06B6D4' },
+        navy: { 300:'#1E293B', 400:'#0F172A', 500:'#0B1120', 600:'#070B14', 700:'#030508' }
+      },
+      fontFamily: { sans: ['Inter', 'sans-serif'] }
+    }
+  }
+}
+</script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+::selection { background: rgba(34,211,238,0.3); color: #fff; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0B1120; }
+::-webkit-scrollbar-thumb { background: #0EA5E9; border-radius: 3px; }
+
+/* Preloader */
+#preloader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #0B1120;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+}
+#preloader.hidden { opacity: 0; visibility: hidden; }
+.preloader-snow {
+  font-size: 48px; color: #22D3EE;
+  animation: preloaderSpin 2s cubic-bezier(0.36, 0.7, 0.4, 1) infinite;
+  filter: drop-shadow(0 0 15px rgba(34,211,238,0.6));
+}
+@keyframes preloaderSpin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.2); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Scroll Progress */
+#scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 1000;
+  background: linear-gradient(90deg, #0EA5E9, #22D3EE, #67E8F9);
+  width: 0%; transition: width 0.1s linear;
+  box-shadow: 0 0 10px rgba(34,211,238,0.5);
+}
+
+/* Reveal Animations */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.active { opacity: 1; transform: translateY(0); }
+.reveal-left {
+  opacity: 0; transform: translateX(-50px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-left.active { opacity: 1; transform: translateX(0); }
+.reveal-right {
+  opacity: 0; transform: translateX(50px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-right.active { opacity: 1; transform: translateX(0); }
+.reveal-scale {
+  opacity: 0; transform: scale(0.9);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-scale.active { opacity: 1; transform: scale(1); }
+
+.stagger-children .reveal:nth-child(1) { transition-delay: 0.05s; }
+.stagger-children .reveal:nth-child(2) { transition-delay: 0.12s; }
+.stagger-children .reveal:nth-child(3) { transition-delay: 0.19s; }
+.stagger-children .reveal:nth-child(4) { transition-delay: 0.26s; }
+
+/* Glassmorphism Card */
+.glass {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(34, 211, 238, 0.1);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.glass:hover {
+  border-color: rgba(34, 211, 238, 0.3);
+  box-shadow: 0 20px 50px -15px rgba(14, 165, 233, 0.15), inset 0 0 20px rgba(34, 211, 238, 0.03);
+  transform: translateY(-4px);
+}
+
+/* Ice Glow Text */
+.ice-glow {
+  text-shadow: 0 0 20px rgba(34,211,238,0.4), 0 0 40px rgba(14,165,233,0.2);
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, #67E8F9, #0EA5E9, #22D3EE);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* Snowflake background pattern */
+.snow-pattern {
+  background-image: radial-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Float animation for decorative snowflakes */
+.float-snow {
+  animation: floatSnow 6s ease-in-out infinite;
+}
+.float-slow { animation-duration: 10s; }
+@keyframes floatSnow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(180deg); }
+}
+
+/* Pulse glow */
+.pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 10px rgba(34,211,238,0.3); }
+  50% { box-shadow: 0 0 25px rgba(34,211,238,0.6), 0 0 50px rgba(14,165,233,0.2); }
+}
+
+/* Counter */
+.counter { font-variant-numeric: tabular-nums; }
+
+/* Nav */
+.nav-blur { backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); }
+
+/* Mobile menu */
+#mobile-menu {
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+#mobile-menu.open { transform: translateX(0); }
+
+/* Shimmer */
+.shimmer { position: relative; overflow: hidden; }
+.shimmer::after {
+  content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+  animation: shimmer 4s infinite;
+}
+@keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
+
+/* Ice crack line decoration */
+.ice-crack {
+  position: absolute; height: 1px; width: 100px;
+  background: linear-gradient(90deg, transparent, rgba(34,211,238,0.3), transparent);
+}
+
+/* Toast */
+#toast {
+  position: fixed; bottom: 24px; right: 24px; z-index: 9000;
+  transform: translateY(120px); opacity: 0;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+#toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body class="bg-navy-500 text-white font-sans antialiased overflow-x-hidden snow-pattern">
+
+<!-- Preloader -->
+<div id="preloader">
+  <div class="text-center">
+    <div class="preloader-snow">❄</div>
+    <p class="text-[10px] tracking-[0.3em] uppercase text-ice-400 mt-5 font-medium">ВДОХНОВЕНИЕ</p>
+  </div>
+</div>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+
+<!-- Canvas Snowflakes -->
+<canvas id="snowCanvas" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+<!-- NAVIGATION -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 nav-blur bg-navy-500/60 border-b border-white/5 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between">
+    <a href="#hero" class="flex items-center gap-2.5 group">
+      <div class="w-9 h-9 rounded-xl bg-ice-500/20 border border-ice-400/30 flex items-center justify-center text-lg group-hover:scale-110 transition-transform duration-300">❄</div>
+      <div class="flex flex-col leading-none">
+        <span class="text-sm font-bold tracking-wide">ВДОХНОВЕНИЕ</span>
+        <span class="text-[9px] tracking-[0.15em] uppercase text-ice-400/70 font-medium">Екатеринбург</span>
+      </div>
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#process" class="text-xs font-medium tracking-wider uppercase text-neutral-400 hover:text-ice-300 transition-colors">Тренировки</a>
+      <a href="#groups" class="text-xs font-medium tracking-wider uppercase text-neutral-400 hover:text-ice-300 transition-colors">Группы</a>
+      <a href="#camps" class="text-xs font-medium tracking-wider uppercase text-neutral-400 hover:text-ice-300 transition-colors">Сборы</a>
+      <a href="#pricing" class="text-xs font-medium tracking-wider uppercase text-neutral-400 hover:text-ice-300 transition-colors">Цены</a>
+      <a href="#cta" class="ml-2 px-5 py-2 rounded-full bg-ice-500 text-white text-xs font-semibold tracking-wider uppercase hover:bg-ice-400 hover:shadow-lg hover:shadow-ice-500/30 transition-all duration-300">Записаться</a>
+    </div>
+    <button id="burger" class="md:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5 transition-colors" aria-label="Меню">
+      <div class="flex flex-col gap-1.5">
+        <span class="burger-line w-5 h-[1.5px] bg-white transition-all duration-300 origin-center"></span>
+        <span class="burger-line w-5 h-[1.5px] bg-white transition-all duration-300"></span>
+        <span class="burger-line w-3.5 h-[1.5px] bg-white transition-all duration-300 origin-center"></span>
+      </div>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="fixed inset-y-0 right-0 w-72 z-[60] bg-navy-400/95 nav-blur border-l border-ice-500/10 flex flex-col p-8 pt-20 gap-6">
+  <button id="close-menu" class="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5 transition-colors">
+    <span class="iconify text-xl text-neutral-400" data-icon="lucide:x"></span>
+  </button>
+  <a href="#process" class="mobile-link text-lg font-medium text-neutral-300 hover:text-ice-300 transition-colors">Тренировки</a>
+  <a href="#groups" class="mobile-link text-lg font-medium text-neutral-300 hover:text-ice-300 transition-colors">Группы</a>
+  <a href="#camps" class="mobile-link text-lg font-medium text-neutral-300 hover:text-ice-300 transition-colors">Сборы</a>
+  <a href="#pricing" class="mobile-link text-lg font-medium text-neutral-300 hover:text-ice-300 transition-colors">Цены</a>
+  <div class="mt-auto">
+    <a href="#cta" class="mobile-link block text-center px-5 py-3 rounded-full bg-ice-500 text-white text-sm font-semibold tracking-wider uppercase hover:bg-ice-400 transition-all">Записаться</a>
+  </div>
+</div>
+<div id="menu-overlay" class="fixed inset-0 z-[55] bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+<!-- HERO -->
+<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(14,165,233,0.1)_0%,transparent_60%)]"></div>
+  <div class="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-navy-500 to-transparent"></div>
+  
+  <!-- Decorative Snowflakes -->
+  <div class="absolute top-[20%] left-[10%] text-4xl text-ice-500/10 float-snow select-none">❄</div>
+  <div class="absolute top-[60%] right-[15%] text-6xl text-ice-400/5 float-snow float-slow select-none">❅</div>
+  <div class="absolute bottom-[25%] left-[20%] text-2xl text-frost-400/10 float-snow select-none">❆</div>
+
+  <div class="relative z-10 max-w-5xl mx-auto px-5 text-center pt-20">
+    <!-- Badge -->
+    <div class="reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-ice-400/30 bg-ice-500/10 mb-8 pulse-glow">
+      <span class="w-1.5 h-1.5 rounded-full bg-frost-400 animate-pulse"></span>
+      <span class="text-[11px] tracking-[0.15em] uppercase text-ice-300 font-medium">Идёт набор • Екатеринбург</span>
+    </div>
+
+    <!-- Title -->
+    <h1 class="reveal text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9] mb-6">
+      <span class="block text-white">ВДОХНОВЕНИЕ</span>
+      <span class="block mt-2 gradient-text ice-glow">НА ЛЬДУ</span>
+    </h1>
+
+    <p class="reveal text-base sm:text-lg md:text-xl text-neutral-300 max-w-2xl mx-auto mb-4 leading-relaxed">
+      Фигурное катание в удовольствие — <span class="text-ice-300 font-semibold">в любом возрасте!</span>
+    </p>
+    <p class="reveal text-sm text-neutral-500 mb-10 max-w-lg mx-auto">От первых шагов на льду до уверенного скольжения и профессионального спорта</p>
+
+    <!-- CTAs -->
+    <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+      <a href="#cta" class="group px-8 py-3.5 rounded-full bg-ice-500 text-white text-sm font-semibold tracking-wider uppercase hover:bg-ice-400 transition-all duration-300 shadow-xl shadow-ice-500/20 hover:shadow-ice-400/40 hover:shadow-2xl flex items-center gap-2">
+        <span class="iconify" data-icon="lucide:sparkles"></span>
+        Бесплатное пробное
+      </a>
+      <a href="#process" class="px-8 py-3.5 rounded-full border border-white/10 text-neutral-300 text-sm font-semibold tracking-wider uppercase hover:border-ice-400/30 hover:text-ice-300 hover:bg-ice-500/5 transition-all duration-300">
+        Узнать больше
+      </a>
+    </div>
+
+    <!-- Stats -->
+    <div class="reveal grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
+      <div class="text-center">
+        <div class="text-3xl md:text-4xl font-black text-white counter" data-target="4">0</div>
+        <div class="text-[10px] tracking-[0.15em] uppercase text-neutral-500 mt-1 font-medium">Группы</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl md:text-4xl font-black text-white">3.5+</div>
+        <div class="text-[10px] tracking-[0.15em] uppercase text-neutral-500 mt-1 font-medium">Лет с нуля</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl md:text-4xl font-black text-white counter" data-target="1200">0</div>
+        <div class="text-[10px] tracking-[0.15em] uppercase text-neutral-500 mt-1 font-medium">Руб/занятие</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl md:text-4xl font-black text-white">∞</div>
+        <div class="text-[10px] tracking-[0.15em] uppercase text-neutral-500 mt-1 font-medium">Удовольствие</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+    <span class="text-[9px] tracking-[0.2em] uppercase text-neutral-600">Scroll</span>
+    <span class="iconify text-neutral-600" data-icon="lucide:chevron-down"></span>
+  </div>
+</section>
+
+<!-- ABOUT / PHILOSOPHY -->
+<section id="about" class="relative py-24 md:py-32 overflow-hidden">
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-ice-500/20 to-transparent"></div>
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+      <div class="reveal-left">
+        <span class="text-[11px] tracking-[0.2em] uppercase text-ice-400 font-semibold mb-4 block">Философия</span>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">
+          Спорт — про<br><span class="gradient-text">удовольствие</span>
+        </h2>
+        <p class="text-neutral-400 leading-relaxed mb-6">
+          Наши тренеры — опытные спортсмены, которые сами прошли путь от первых шагов на льду до профессионального спорта. Участники и победители <strong class="text-white">всероссийских и международных соревнований</strong>.
+        </p>
+        <p class="text-neutral-400 leading-relaxed mb-8">
+          Мы знаем, как научить кататься, и верим, что начать <strong class="text-ice-300">никогда не поздно</strong>. Индивидуальный подход к каждому спортсмену, внимание к физическому и психологическому состоянию.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-ice-500/10 border border-ice-400/20">
+            <span class="iconify text-ice-400 text-sm" data-icon="lucide:heart"></span>
+            <span class="text-xs text-ice-300 font-medium">Любовь к спорту</span>
+          </div>
+          <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-ice-500/10 border border-ice-400/20">
+            <span class="iconify text-ice-400 text-sm" data-icon="lucide:shield-check"></span>
+            <span class="text-xs text-ice-300 font-medium">Безопасность</span>
+          </div>
+          <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-ice-500/10 border border-ice-400/20">
+            <span class="iconify text-ice-400 text-sm" data-icon="lucide:smile"></span>
+            <span class="text-xs text-ice-300 font-medium">Без давления</span>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right relative">
+        <div class="relative rounded-2xl overflow-hidden aspect-[4/3] border border-ice-500/10">
+          <img src="https://picsum.photos/seed/ice-skating-rink-pose/800/600" alt="Фигурное катание" class="w-full h-full object-cover opacity-80" loading="lazy">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-500 via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 right-6">
+            <div class="glass rounded-xl px-4 py-3 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-ice-500/20 flex items-center justify-center text-xl">⛸</div>
+              <div>
+                <div class="text-sm font-bold">Обучение с нуля</div>
+                <div class="text-[10px] text-neutral-500 tracking-wider uppercase">до уверенного катания</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="absolute -top-6 -right-6 w-24 h-24 border border-ice-400/10 rounded-2xl -z-10"></div>
+        <div class="absolute -bottom-6 -left-6 w-16 h-16 bg-ice-500/5 rounded-xl -z-10"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRAINING PROCESS -->
+<section id="process" class="relative py-24 md:py-32 overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(14,165,233,0.05)_0%,transparent_60%)]"></div>
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="text-center mb-16">
+      <span class="reveal text-[11px] tracking-[0.2em] uppercase text-ice-400 font-semibold mb-4 block">Комплексный подход</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">
+        Что входит в <span class="gradient-text">тренировку</span>
+      </h2>
+      <p class="reveal text-neutral-400 mt-4 max-w-xl mx-auto text-sm">Занятия не ограничиваются выходом на лёд — полная подготовка фигуриста</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger-children">
+      <!-- Ice -->
+      <div class="reveal glass rounded-2xl p-6 shimmer group">
+        <div class="w-12 h-12 rounded-xl bg-ice-500/10 flex items-center justify-center mb-5 group-hover:bg-ice-500/20 transition-colors">
+          <span class="iconify text-2xl text-ice-400" data-icon="lucide:hexagon"></span>
+        </div>
+        <h3 class="text-lg font-bold mb-2">Лёд</h3>
+        <p class="text-xs text-neutral-400 leading-relaxed">Отработка скольжения, шагов, базовых элементов, прыжков и вращений</p>
+        <div class="mt-5 pt-4 border-t border-white/5">
+          <span class="text-[10px] tracking-[0.15em] uppercase text-ice-400 font-semibold">Основная работа</span>
+        </div>
+      </div>
+      <!-- SFP -->
+      <div class="reveal glass rounded-2xl p-6 shimmer group">
+        <div class="w-12 h-12 rounded-xl bg-ice-500/10 flex items-center justify-center mb-5 group-hover:bg-ice-500/20 transition-colors">
+          <span class="iconify text-2xl text-ice-400" data-icon="lucide:rotate-3d"></span>
+        </div>
+        <h3 class="text-lg font-bold mb-2">СФП</h3>
+        <p class="text-xs text-neutral-400 leading-relaxed">Тренировки в зале: прыжковая база, координация и баланс на ротаторах/спиннерах</p>
+        <div class="mt-5 pt-4 border-t border-white/5">
+          <span class="text-[10px] tracking-[0.15em] uppercase text-ice-400 font-semibold">Спец. подготовка</span>
+        </div>
+      </div>
+      <!-- OFP -->
+      <div class="reveal glass rounded-2xl p-6 shimmer group">
+        <div class="w-12 h-12 rounded-xl bg-ice-500/10 flex items-center justify-center mb-5 group-hover:bg-ice-500/20 transition-colors">
+          <span class="iconify text-2xl text-ice-400" data-icon="lucide:dumbbell"></span>
+        </div>
+        <h3 class="text-lg font-bold mb-2">ОФП</h3>
+        <p class="text-xs text-neutral-400 leading-relaxed">Выносливость, сила мышц, укрепление голеностопа и спины</p>
+        <div class="mt-5 pt-4 border-t border-white/5">
+          <span class="text-[10px] tracking-[0.15em] uppercase text-ice-400 font-semibold">Общая физическая</span>
+        </div>
+      </div>
+      <!-- Choreo -->
+      <div class="reveal glass rounded-2xl p-6 shimmer group">
+        <div class="w-12 h-12 rounded-xl bg-ice-500/10 flex items-center justify-center mb-5 group-hover:bg-ice-500/20 transition-colors">
+          <span class="iconify text-2xl text-ice-400" data-icon="lucide:music"></span>
+        </div>
+        <h3 class="text-lg font-bold mb-2">Хореография</h3>
+        <p class="text-xs text-neutral-400 leading-relaxed">Пластика, гибкость, грация. Постановка рук, осанки, подготовка танцевального класса</p>
+        <div class="mt-5 pt-4 border-t border-white/5">
+          <span class="text-[10px] tracking-[0.15em] uppercase text-ice-400 font-semibold">Растяжка + танец</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GROUPS -->
+<section id="groups" class="relative py-24 md:py-32 overflow-hidden">
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-ice-500/20 to-transparent"></div>
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="text-center mb-12">
+      <span class="reveal text-[11px] tracking-[0.2em] uppercase text-ice-400 font-semibold mb-4 block">Направления</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">
+        Возрастные <span class="gradient-text">группы</span>
+      </h2>
+    </div>
+
+    <!-- Tabs -->
+    <div class="reveal flex flex-wrap justify-center gap-2 mb-10">
+      <button class="age-tab active px-4 py-2 text-xs font-semibold tracking-wider uppercase text-neutral-400 border-b-2 border-transparent transition-all" data-tab="kids">Дети 3.5+</button>
+      <button class="age-tab px-4 py-2 text-xs font-semibold tracking-wider uppercase text-neutral-400 border-b-2 border-transparent transition-all" data-tab="adults">Взрослые</button>
+    </div>
+
+    <!-- Tab Content -->
+    <div id="tab-content">
+      <!-- Kids -->
+      <div class="tab-panel active" data-panel="kids">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <div class="rounded-2xl overflow-hidden aspect-video border border-ice-500/10">
+            <img src="https://picsum.photos/seed/kids-ice-skating-joy/800/450" alt="Дети на льду" class="w-full h-full object-cover opacity-80" loading="lazy">
+          </div>
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-ice-500/10 flex items-center justify-center">
+                <span class="iconify text-xl text-ice-400" data-icon="lucide:baby"></span>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold">Дети и подростки</h3>
+                <span class="text-[10px] tracking-wider uppercase text-ice-400/70 font-medium">От 3,5–4 лет</span>
+              </div>
+            </div>
+            <ul class="space-y-3 text-sm text-neutral-400">
+              <li class="flex items-start gap-3"><span class="iconify text-ice-400 mt-0.5 shrink-0" data-icon="lucide:check-circle-2"></span>Мягкая адаптация — без жёсткого психологического давления</li>
+              <li class="flex items-start gap-3"><span class="iconify text-ice-400 mt-0.5 shrink-0" data-icon="lucide:check-circle-2"></span>Правильное и безопасное падение</li>
+              <li class="flex items-start gap-3"><span class="iconify text-ice-400 mt-0.5 shrink-0" data-icon="lucide:check-circle-2"></span>Постановка спины и преодоление страха льда</li>
+              <li class="flex items-start gap-3"><span class="iconify text-ice-400 mt-0.5 shrink-0" data-icon="lucide:check-circle-2"></span>Получение удовольствия от процесса</li>
+              <li class="flex items-start gap-3"><span class="iconify text-ice-400 mt-0.5 shrink-0" data-icon="lucide:check-circle-2"></span>Подготовка к фестивалям и сдача на разряды (юный фигурист и далее)</li>
+            </ul>
+            <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-frost-500/10 border border-frost-400/20">
+              <span class="iconify text-frost-400" data-icon="lucide:gift"></span>
+              <span class="text-xs text-frost-400 font-semibold">Первое пробное занятие — БЕСПЛАТНО</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Adults -->
+      <div class="tab-panel hidden" data-panel="adults">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <div class="rounded-2xl overflow-hidden aspect-video border border-ice-500/10">
+            <img src="https://picsum.photos/seed/adult-ice-skating-grace/800/450" alt="Взрослые на льду" class="w-full h-full object-cover opacity-80" loading="lazy">
+          </div>
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-ice-500/10 flex items-center justify-center">
+                <span class="iconify text-xl text-ice-400" data-icon="lucide:user"></span>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold">Взрослые любители</h3>
+                <span class="text-[10px] tracking-wider uppercase text-ice-400/70 font-medium">С полного нуля</span>
+              </div>
+            </div>
+            <ul class="space-y-3 text-sm text-neutral-400">
+              <li class="flex items-start gap-3"><span class="iconify text-ice-400 mt-0.5 shrink-0" data-icon="lucide:check-circle-2"></span>Неважно, сколько вам лет — начинаем с основ</li>
+              <li class="flex items-start gap-3"><span class="iconify text-ice-400 mt-0.5 shrink-0" data-icon="lucide:check-circle-2"></span>Уверенное скольжение: вперёд, назад, подсечки, торможения</li>
+              <li class="flex items-start gap-3"><span class="iconify text-ice-400 mt-0.5 shrink-0" data-icon="lucide:check-circle-2"></span>Красивые элементы: ласточки, вращения, перекидные прыжки</li>
+              <li class="flex items-start gap-3"><span class="iconify text-ice-400 mt-0.5 shrink-0" data-icon="lucide:check-circle-2"></span>Осуществление детской мечты ✨</li>
+              <li class="flex items-start gap-3"><span class="iconify text-ice-400 mt-0.5 shrink-0" data-icon="lucide:check-circle-2"></span>Альтернатива скучному фитнесу</li>
+              <li class="flex items-start gap-3"><span class="iconify text-ice-400 mt-0.5 shrink-0" data-icon="lucide:check-circle-2"></span>Подготовка к любительским соревнованиям (при желании)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUMMER CAMPS -->
+<section id="camps" class="relative py-24 md:py-32 overflow-hidden">
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-ice-500/20 to-transparent"></div>
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="reveal glass rounded-3xl p-8 md:p-12 relative overflow-hidden">
+      <!-- Decorative -->
+      <div class="absolute top-0 right-0 w-64 h-64 bg-ice-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+      <div class="absolute bottom-0 left-0 text-[120px] leading-none text-ice-400/5 select-none -translate-y-1/4">☀️</div>
+      
+      <div class="relative z-10 grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-frost-500/10 border border-frost-400/20 mb-5">
+            <span class="iconify text-frost-400 text-sm" data-icon="lucide:sun"></span>
+            <span class="text-[10px] tracking-wider uppercase text-frost-400 font-semibold">Летние интенсивы</span>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-black tracking-tight mb-4">
+            Спортивные <span class="gradient-text">сборы</span>
+          </h2>
+          <p class="text-sm text-neutral-400 leading-relaxed mb-4">
+            В конце весеннего сезона и летом школа открывает городской спортивный лагерь. Формат полного дня — идеально для каникул!
+          </p>
+          <a href="#cta" class="inline-flex items-center gap-2 text-xs font-semibold text-ice-400 hover:text-ice-300 transition-colors">
+            Узнать подробности <span class="iconify" data-icon="lucide:arrow-right"></span>
+          </a>
+        </div>
+        <div class="space-y-4">
+          <div class="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5">
+            <span class="iconify text-xl text-ice-400 shrink-0 mt-0.5" data-icon="lucide:hexagon"></span>
+            <div>
+              <h4 class="text-sm font-semibold mb-1">Тренировки на льду</h4>
+              <p class="text-xs text-neutral-400">Ежедневная практика для быстрого прогресса</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5">
+            <span class="iconify text-xl text-ice-400 shrink-0 mt-0.5" data-icon="lucide:palette"></span>
+            <div>
+              <h4 class="text-sm font-semibold mb-1">Творческие мастер-классы</h4>
+              <p class="text-xs text-neutral-400">Развитие танцевальных навыков и пластики</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5">
+            <span class="iconify text-xl text-ice-400 shrink-0 mt-0.5" data-icon="lucide:trees"></span>
+            <div>
+              <h4 class="text-sm font-semibold mb-1">Игры и квесты</h4>
+              <p class="text-xs text-neutral-400">Активность на свежем воздухе, сплочение команды</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="relative py-24 md:py-32 overflow-hidden">
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-ice-500/20 to-transparent"></div>
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="text-center mb-16">
+      <span class="reveal text-[11px] tracking-[0.2em] uppercase text-ice-400 font-semibold mb-4 block">Стоимость</span>
+      <h2 class="reveal text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">
+        Прозрачные <span class="gradient-text">цены</span>
+      </h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto stagger-children">
+      <!-- Trial -->
+      <div class="reveal glass rounded-2xl p-8 flex flex-col relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-20 h-20 bg-frost-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
+        <div class="text-[10px] tracking-[0.15em] uppercase text-frost-400 font-semibold mb-3">Пробное</div>
+        <div class="flex items-baseline gap-1 mb-1">
+          <span class="text-4xl font-black text-frost-400 ice-glow">0</span>
+          <span class="text-sm text-neutral-500">₽</span>
+        </div>
+        <p class="text-xs text-neutral-400 mb-6">Для детей — бесплатно</p>
+        <ul class="space-y-2.5 text-sm text-neutral-400 mb-8 flex-1">
+          <li class="flex items-center gap-2"><span class="iconify text-ice-400 text-sm" data-icon="lucide:check"></span>Ознакомительное занятие</li>
+          <li class="flex items-center gap-2"><span class="iconify text-ice-400 text-sm" data-icon="lucide:check"></span>Знакомство с тренером</li>
+          <li class="flex items-center gap-2"><span class="iconify text-ice-400 text-sm" data-icon="lucide:check"></span>Оценка готовности</li>
+        </ul>
+        <a href="#cta" class="block text-center px-5 py-2.5 rounded-full border border-ice-400/30 text-ice-300 text-xs font-semibold tracking-wider uppercase hover:bg-ice-500/10 transition-all">Записаться</a>
+      </div>
+      <!-- Single -->
+      <div class="reveal glass rounded-2xl p-8 flex flex-col border-ice-400/30 relative overflow-hidden">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-ice-500 text-[10px] text-white font-bold tracking-wider uppercase z-10">Основное</div>
+        <div class="text-[10px] tracking-[0.15em] uppercase text-neutral-500 font-semibold mb-3">Разовое</div>
+        <div class="flex items-baseline gap-1 mb-1">
+          <span class="text-4xl font-black text-white">1 200</span>
+          <span class="text-sm text-neutral-500">₽</span>
+        </div>
+        <p class="text-xs text-neutral-400 mb-6">1 занятие (1 час)</p>
+        <ul class="space-y-2.5 text-sm text-neutral-400 mb-8 flex-1">
+          <li class="flex items-center gap-2"><span class="iconify text-ice-400 text-sm" data-icon="lucide:check"></span>Комплексная подготовка</li>
+          <li class="flex items-center gap-2"><span class="iconify text-ice-400 text-sm" data-icon="lucide:check"></span>Лёд + СФП + ОФП</li>
+          <li class="flex items-center gap-2"><span class="iconify text-ice-400 text-sm" data-icon="lucide:check"></span>Растяжка и хореография</li>
+        </ul>
+        <a href="#cta" class="block text-center px-5 py-2.5 rounded-full bg-ice-500 text-white text-xs font-semibold tracking-wider uppercase hover:bg-ice-400 transition-all">Выбрать</a>
+      </div>
+      <!-- Camp -->
+      <div class="reveal glass rounded-2xl p-8 flex flex-col relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-20 h-20 bg-frost-500/10 rounded-full blur-2xl -translate-y-1/2 -translate-x-1/2"></div>
+        <div class="text-[10px] tracking-[0.15em] uppercase text-ice-400 font-semibold mb-3">Лагерь</div>
+        <div class="flex items-baseline gap-1 mb-1">
+          <span class="text-lg font-black text-white">По запросу</span>
+        </div>
+        <p class="text-xs text-neutral-400 mb-6">Летние спортивные сборы</p>
+        <ul class="space-y-2.5 text-sm text-neutral-400 mb-8 flex-1">
+          <li class="flex items-center gap-2"><span class="iconify text-ice-400 text-sm" data-icon="lucide:check"></span>Формат полного дня</li>
+          <li class="flex items-center gap-2"><span class="iconify text-ice-400 text-sm" data-icon="lucide:check"></span>Лёд + мастер-классы</li>
+          <li class="flex items-center gap-2"><span class="iconify text-ice-400 text-sm" data-icon="lucide:check"></span>Квесты и игры на воздухе</li>
+        </ul>
+        <a href="#cta" class="block text-center px-5 py-2.5 rounded-full border border-white/10 text-neutral-300 text-xs font-semibold tracking-wider uppercase hover:border-ice-400/30 hover:text-ice-300 transition-all">Узнать</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="relative py-24 md:py-32 overflow-hidden">
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-ice-500/20 to-transparent"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(14,165,233,0.08)_0%,transparent_60%)]"></div>
+  <div class="max-w-4xl mx-auto px-5 text-center">
+    <div class="reveal">
+      <div class="text-6xl md:text-8xl font-black text-ice-500/5 mb-4 select-none">⛸</div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4">
+        Ваш выход на <span class="gradient-text">лёд</span>
+      </h2>
+      <p class="text-neutral-400 max-w-lg mx-auto mb-10 text-sm leading-relaxed">
+        Запишитесь на бесплатное пробное занятие для детей или приходите на первую тренировку — мы научим вас кататься!
+      </p>
+    </div>
+
+    <!-- Form -->
+    <div class="reveal max-w-md mx-auto">
+      <form id="signup-form" class="space-y-4">
+        <div>
+          <input type="text" id="form-name" placeholder="Ваше имя или имя ребёнка" required class="w-full px-5 py-3 rounded-xl bg-navy-300 border border-white/10 text-white placeholder-neutral-600 text-sm focus:outline-none focus:border-ice-500/50 focus:ring-1 focus:ring-ice-500/30 transition-all">
+        </div>
+        <div>
+          <input type="tel" id="form-phone" placeholder="+7 (___) ___-__-__" required class="w-full px-5 py-3 rounded-xl bg-navy-300 border border-white/10 text-white placeholder-neutral-600 text-sm focus:outline-none focus:border-ice-500/50 focus:ring-1 focus:ring-ice-500/30 transition-all">
+        </div>
+        <div>
+          <select id="form-group" class="w-full px-5 py-3 rounded-xl bg-navy-300 border border-white/10 text-neutral-400 text-sm focus:outline-none focus:border-ice-500/50 focus:ring-1 focus:ring-ice-500/30 transition-all appearance-none cursor-pointer">
+            <option value="">Выберите направление</option>
+            <option value="kids">Дети (от 3,5 лет)</option>
+            <option value="teens">Подростки</option>
+            <option value="adults">Взрослые (с нуля)</option>
+            <option value="pro">Спортсмены (с опытом)</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full px-8 py-3.5 rounded-xl bg-ice-500 text-white text-sm font-semibold tracking-wider uppercase hover:bg-ice-400 hover:shadow-xl hover:shadow-ice-500/30 transition-all duration-300 flex items-center justify-center gap-2">
+          <span class="iconify" data-icon="lucide:sparkles"></span>
+          Записаться
+        </button>
+        <p class="text-[10px] text-neutral-600">Или позвоните: <a href="tel:+79122728464" class="text-ice-400/70 hover:text-ice-400 transition-colors">+7 (912) 272-84-64</a></p>
+      </form>
+    </div>
+
+    <!-- Contacts -->
+    <div class="reveal mt-16 grid sm:grid-cols-2 gap-6 max-w-lg mx-auto">
+      <a href="tel:+79122728464" class="glass rounded-xl p-5 flex items-center gap-4 group">
+        <div class="w-10 h-10 rounded-lg bg-ice-500/10 flex items-center justify-center shrink-0 group-hover:bg-ice-500/20 transition-colors">
+          <span class="iconify text-ice-400" data-icon="lucide:phone"></span>
+        </div>
+        <div class="text-left">
+          <div class="text-sm font-semibold text-white group-hover:text-ice-300 transition-colors">+7 (912) 272-84-64</div>
+          <div class="text-[10px] text-neutral-500 tracking-wider uppercase">Основной номер</div>
+        </div>
+      </a>
+      <a href="tel:+79321110746" class="glass rounded-xl p-5 flex items-center gap-4 group">
+        <div class="w-10 h-10 rounded-lg bg-ice-500/10 flex items-center justify-center shrink-0 group-hover:bg-ice-500/20 transition-colors">
+          <span class="iconify text-ice-400" data-icon="lucide:phone"></span>
+        </div>
+        <div class="text-left">
+          <div class="text-sm font-semibold text-white group-hover:text-ice-300 transition-colors">+7 (932) 111-07-46</div>
+          <div class="text-[10px] text-neutral-500 tracking-wider uppercase">Дополнительный</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Social -->
+    <div class="reveal mt-8 flex items-center justify-center gap-4">
+      <a href="https://vk.com" target="_blank" rel="noopener" class="glass w-11 h-11 rounded-xl flex items-center justify-center group hover:border-ice-400/30 transition-all">
+        <span class="iconify text-lg text-neutral-400 group-hover:text-ice-400 transition-colors" data-icon="lucide:external-link"></span>
+      </a>
+      <span class="text-xs text-neutral-500">ВКонтакте «Вдохновение ЕКБ» — видео с тренировок, советы, расписание</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="relative py-12 border-t border-white/5">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-ice-500/20 border border-ice-400/30 flex items-center justify-center text-sm">❄</div>
+        <div>
+          <span class="text-sm font-bold">ВДОХНОВЕНИЕ ЕКБ</span>
+          <span class="text-xs text-neutral-500 ml-2">Школа фигурного катания</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-6 text-xs text-neutral-500">
+        <span>Екатеринбург</span>
+        <span class="w-1 h-1 rounded-full bg-neutral-700"></span>
+        <span>+7 (912) 272-84-64</span>
+        <span class="w-1 h-1 rounded-full bg-neutral-700"></span>
+        <span>© 2025</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div id="toast" class="px-5 py-3 rounded-xl bg-ice-500 text-white text-sm font-medium shadow-xl shadow-ice-500/30 flex items-center gap-2">
+  <span class="iconify" data-icon="lucide:check-circle-2"></span>
+  <span id="toast-msg">Заявка отправлена!</span>
+</div>
+
+<script>
+// Preloader
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 1400);
+});
+
+// Scroll Progress
+const progressBar = document.getElementById('scroll-progress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  progressBar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100 + '%';
+});
+
+// Reveal on Scroll
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => revealObserver.observe(el));
+
+// Counter Animation
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !e.target.dataset.counted) {
+      e.target.dataset.counted = 'true';
+      const target = parseInt(e.target.dataset.target);
+      const duration = 2000, start = performance.now();
+      const animate = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        e.target.textContent = Math.floor(target * eased);
+        if (progress < 1) requestAnimationFrame(animate);
+        else e.target.textContent = target;
+      };
+      requestAnimationFrame(animate);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+// Mobile Menu
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobile-menu');
+const menuOverlay = document.getElementById('menu-overlay');
+const closeMenu = document.getElementById('close-menu');
+
+function openMenu() {
+  mobileMenu.classList.add('open');
+  menuOverlay.style.opacity = '1';
+  menuOverlay.style.pointerEvents = 'auto';
+  document.body.style.overflow = 'hidden';
+  const lines = burger.querySelectorAll('.burger-line');
+  lines[0].style.transform = 'rotate(45deg) translate(3px, 3px)';
+  lines[1].style.opacity = '0';
+  lines[2].style.transform = 'rotate(-45deg) translate(3px, -3px)';
+  lines[2].style.width = '20px';
+}
+function closeMenuFn() {
+  mobileMenu.classList.remove('open');
+  menuOverlay.style.opacity = '0';
+  menuOverlay.style.pointerEvents = 'none';
+  document.body.style.overflow = '';
+  const lines = burger.querySelectorAll('.burger-line');
+  lines[0].style.transform = '';
+  lines[1].style.opacity = '1';
+  lines[2].style.transform = '';
+  lines[2].style.width = '';
+}
+burger.addEventListener('click', openMenu);
+closeMenu.addEventListener('click', closeMenuFn);
+menuOverlay.addEventListener('click', closeMenuFn);
+document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMenuFn));
+
+// Age Group Tabs
+document.querySelectorAll('.age-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.age-tab').forEach(t => { t.classList.remove('active'); t.style.color = ''; t.style.borderBottomColor = 'transparent'; });
+    tab.classList.add('active');
+    tab.style.color = '#22D3EE';
+    tab.style.borderBottomColor = '#0EA5E9';
+    const target = tab.dataset.tab;
+    document.querySelectorAll('.tab-panel').forEach(p => {
+      p.classList.toggle('hidden', p.dataset.panel !== target);
+    });
+  });
+});
+// Init active tab style
+document.querySelector('.age-tab.active').style.color = '#22D3EE';
+document.querySelector('.age-tab.active').style.borderBottomColor = '#0EA5E9';
+
+// Snowflake Canvas
+const canvas = document.getElementById('snowCanvas');
+const ctx = canvas.getContext('2d');
+let snowflakes = [];
+const SNOWFLAKE_COUNT = 80;
+const snowChars = ['❄', '❅', '❆', '•', '✦'];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Snowflake {
+  constructor() { this.reset(true); }
+  reset(init = false) {
+    this.x = Math.random() * canvas.width;
+    this.y = init ? Math.random() * canvas.height : -20;
+    this.size = Math.random() * 14 + 4;
+    this.speedY = Math.random() * 0.8 + 0.2;
+    this.speedX = (Math.random() - 0.5) * 0.5;
+    this.opacity = Math.random() * 0.15 + 0.03;
+    this.char = snowChars[Math.floor(Math.random() * snowChars.length)];
+    this.rotation = Math.random() * 360;
+    this.rotationSpeed = (Math.random() - 0.5) * 0.5;
+    // Wobble
+    this.wobbleAmp = Math.random() * 1.5;
+    this.wobbleSpeed = Math.random() * 0.02 + 0.01;
+    this.wobbleOffset = Math.random() * Math.PI * 2;
+    this.time = 0;
+  }
+  update() {
+    this.time++;
+    this.y += this.speedY;
+    this.x += this.speedX + Math.sin(this.time * this.wobbleSpeed + this.wobbleOffset) * this.wobbleAmp * 0.1;
+    this.rotation += this.rotationSpeed;
+    if (this.y > canvas.height + 20) this.reset();
+    if (this.x < -20 || this.x > canvas.width + 20) this.reset();
+  }
+  draw() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.rotation * Math.PI / 180);
+    ctx.font = `${this.size}px Inter`;
+    ctx.fillStyle = `rgba(147, 197, 253, ${this.opacity})`; // ice-200
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(this.char, 0, 0);
+    ctx.restore();
+  }
+}
+
+for (let i = 0; i < SNOWFLAKE_COUNT; i++) snowflakes.push(new Snowflake());
+
+function animateSnow() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  snowflakes.forEach(s => { s.update(); s.draw(); });
+  requestAnimationFrame(animateSnow);
+}
+animateSnow();
+
+// Form Submission
+const form = document.getElementById('signup-form');
+const toast = document.getElementById('toast');
+const toastMsg = document.getElementById('toast-msg');
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('form-name').value;
+  const phone = document.getElementById('form-phone').value;
+  if (!name || !phone) { showToast('Пожалуйста, заполните все поля', true); return; }
+  const btn = form.querySelector('button[type="submit"]');
+  btn.innerHTML = '<span class="iconify animate-spin" data-icon="lucide:loader-2"></span> Отправка...';
+  btn.disabled = true;
+  setTimeout(() => {
+    showToast(`${name}, заявка отправлена! Мы свяжемся с вами.`);
+    form.reset();
+    btn.innerHTML = '<span class="iconify" data-icon="lucide:sparkles"></span> Записаться';
+    btn.disabled = false;
+  }, 1500);
+});
+
+function showToast(msg, isError = false) {
+  toastMsg.textContent = msg;
+  toast.style.background = isError ? '#991B1B' : '#0EA5E9';
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// Phone Mask
+const phoneInput = document.getElementById('form-phone');
+phoneInput.addEventListener('input', (e) => {
+  let val = e.target.value.replace(/\D/g, '');
+  if (val.length > 0) {
+    if (val[0] === '8') val = '7' + val.slice(1);
+    if (val[0] !== '7') val = '7' + val;
+  }
+  let formatted = '';
+  if (val.length > 0) formatted = '+' + val[0];
+  if (val.length > 1) formatted += ' (' + val.slice(1, 4);
+  if (val.length > 4) formatted += ') ' + val.slice(4, 7);
+  if (val.length > 7) formatted += '-' + val.slice(7, 9);
+  if (val.length > 9) formatted += '-' + val.slice(9, 11);
+  e.target.value = formatted;
+});
+
+// Smooth Scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+</script>
+</body>
+</html>
